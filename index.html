@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JumpRush- The Jumping Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="./style/main.css"/>
+</head>
+<body>
+
+  <div class="popup-overlay" id="welcome-popup">
+    <article class="popup">
+      <div class="popup-glow" aria-hidden="true"></div>
+      <header class="popup-top">
+        <span class="popup-tag">// MISSION BRIEF</span>
+        <h2 class="popup-heading">JUMP RUSH</h2>
+        <p class="popup-tagline">A cyberpunk survival runner</p>
+      </header>
+
+      <section class="popup-content">
+        <div class="guide-block">
+          <h3 class="guide-title">⚡ OBJECTIVE</h3>
+          <p class="guide-text">
+            Survive as long as you can by jumping over obstacles racing toward you.
+            Every obstacle cleared earns a point. Speed grows as you level up.
+            You have <strong>3 lives</strong> and if you lose all 3, the game ends💀💥.
+          </p>
+        </div>
+        <div class="guide-block">
+          <h3 class="guide-title">🎮 CONTROLS</h3>
+          <div class="controls-list">
+            <div class="control-row">
+              <div class="key-group">
+                <kbd>SPACE</kbd>
+                <span class="key-or">or</span>
+                <kbd>⬆️</kbd>
+              </div>
+              <span class="key-label">Jump / Start the Game</span>
+            </div>
+            <div class="control-row">
+              <div class="key-group">
+                <kbd>P</kbd>
+                <span class="key-or">or</span>
+                <kbd>ESC</kbd>
+              </div>
+              <span class="key-label">Pause / Resume</span>
+            </div>
+            <div class="control-row">
+              <div class="key-group">
+                <kbd>Q</kbd>
+              </div>
+              <span class="key-label">Quit / Forfeit the Game</span>
+            </div>
+            <div class="control-row">
+              <div class="key-group">
+                <kbd>TAP</kbd>
+              </div>
+              <span class="key-label">Jump on Mobile / Tablet</span>
+            </div>
+
+          </div>
+        </div>
+        <div class="guide-block">
+          <h3 class="guide-title">🏆 LEVELS & BONUSES</h3>
+          <ul class="level-list">
+            <li class="level-row">
+              <span class="level-badge">LV 1</span>
+              <span>Base speed: warm up and get going 🦶</span>
+            </li>
+            <li class="level-row">
+              <span class="level-badge lv-green">LV 2</span>
+              <span>Speed increases at 200 points 🏃🏃</span>
+            </li>
+            <li class="level-row">
+              <span class="level-badge lv-yellow">LV 3</span>
+              <span>Double jump unlocked 🤸</span>
+            </li>
+            <li class="level-row">
+              <span class="level-badge lv-orange">LV 4</span>
+              <span>Faster obstacles at 600 points 🚀🚀</span>
+            </li>
+            <li class="level-row">
+              <span class="level-badge lv-red">LV 5</span>
+              <span>MAX SPEED: survive if you can! ⚡⚡</span>
+            </li>
+          </ul>
+        </div>
+
+      </section>
+      <footer class="popup-bottom">
+        <button class="btn-start" id="start-button">
+          <span aria-hidden="true">▶</span> START GAME
+        </button>
+        <p class="popup-tip">
+          Reopen this guide anytime with the <strong>?</strong> button
+        </p>
+      </footer>
+    </article>
+  </div>
+  <div class="popup-overlay is-hidden" id="pause-popup">
+    <article class="popup popup-medium">
+      <div class="popup-glow yellow-glow" aria-hidden="true"></div>
+
+      <header class="popup-top">
+        <span class="popup-tag">// GAME PAUSED</span>
+        <h2 class="popup-heading text-yellow">⏸ PAUSED</h2>
+      </header>
+
+      <section class="popup-content">
+        <div class="stats-row">
+          <div class="stat-card">
+            <span class="stat-label">Current Score</span>
+            <span class="stat-value" id="paused-score">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Level</span>
+            <span class="stat-value" id="paused-level">1</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Lives Left</span>
+            <span class="stat-value" id="paused-lives">♥ ♥ ♥</span>
+          </div>
+        </div>
+
+        <p class="keyboard-reminder">
+          Press <kbd>P</kbd> or <kbd>ESC</kbd> to resume
+        </p>
+      </section>
+
+      <footer class="popup-bottom popup-row">
+        <button class="btn-start" id="resume-button">
+          <span aria-hidden="true">▶</span> RESUME
+        </button>
+        <button class="btn-quit" id="open-quit-button">
+          <span aria-hidden="true">✕</span> FORFEIT GAME
+        </button>
+      </footer>
+    </article>
+  </div>
+  <div class="popup-overlay is-hidden" id="quit-popup">
+    <article class="popup popup-small">
+      <div class="popup-glow red-glow" aria-hidden="true"></div>
+
+      <header class="popup-top">
+        <span class="popup-tag">// ARE YOU SURE?</span>
+        <h2 class="popup-heading text-red">QUIT GAME?</h2>
+        <p class="popup-tagline">Your progress will be lost.</p>
+      </header>
+
+      <section class="popup-content">
+        <p class="guide-text text-center">
+          Are you sure you want to
+          <strong class="text-red">end this run</strong>?
+          Your score is only kept if it beats your best.
+        </p>
+        <div class="score-warning">
+          <span class="stat-label">You will lose</span>
+          <span class="stat-value text-red" id="quit-score-preview">0 pts</span>
+        </div>
+      </section>
+
+      <footer class="popup-bottom popup-row">
+        <button class="btn-secondary" id="cancel-quit-button">
+          ⬅️ KEEP PLAYING
+        </button>
+        <button class="btn-quit" id="confirm-quit-button">
+          ❌ YES, QUIT
+        </button>
+      </footer>
+    </article>
+  </div>
+  <div class="popup-overlay is-hidden" id="game-over-popup">
+    <article class="popup popup-medium">
+      <div class="popup-glow red-glow" aria-hidden="true"></div>
+
+      <header class="popup-top">
+        <span class="popup-tag">// RUN OVER</span>
+        <h2 class="popup-heading text-red glitch-text">GAME OVER</h2>
+        <p class="popup-tagline" id="game-over-message">Better luck next time!</p>
+      </header>
+
+      <section class="popup-content">
+        <div class="stats-row">
+          <div class="stat-card">
+            <span class="stat-label">Your Score</span>
+            <span class="stat-value text-yellow" id="final-score">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Best Score</span>
+            <span class="stat-value text-green" id="final-best-score">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Level Reached</span>
+            <span class="stat-value" id="final-level">1</span>
+          </div>
+        </div>
+        <p class="new-record-message is-hidden" id="new-record-message">
+          🏆 NEW HIGH SCORE!
+        </p>
+
+      </section>
+
+      <footer class="popup-bottom popup-row">
+        <button class="btn-start" id="play-again-button">
+          <span aria-hidden="true">▶</span> PLAY AGAIN
+        </button>
+        <button class="btn-ghost" id="show-guide-button">
+          ? HOW TO PLAY
+        </button>
+      </footer>
+
+    </article>
+  </div>
+
+
+  <main class="game-page">
+    <header class="game-header">
+      <div class="logo-group">
+        <span class="logo-icon" aria-hidden="true">◈</span>
+        <span class="logo-name">JUMP RUSH</span>
+        <span class="logo-version">v2.0</span>
+      </div>
+      <nav class="header-buttons" aria-label="Game controls">
+        <button class="header-btn" id="help-button" title="How to Play (?)">?</button>
+        <button class="header-btn" id="pause-button" title="Pause Game (P)" disabled>⏸</button>
+        <button class="header-btn btn-red" id="quit-button" title="Quit Game (Q)" disabled>✕</button>
+      </nav>
+    </header>
+    <div class="scoreboard" role="status" aria-live="polite" aria-label="Game stats">
+      <div class="score-item">
+        <span class="score-label">Score</span>
+        <span class="score-number" id="score-display">0</span>
+      </div>
+      <div class="score-item">
+        <span class="score-label">Best</span>
+        <span class="score-number text-yellow" id="best-score-display">0</span>
+      </div>
+      <div class="score-item">
+        <span class="score-label">Speed</span>
+        <div class="speed-bars" id="speed-bars">
+          <div class="speed-bar" id="bar-1"></div>
+          <div class="speed-bar" id="bar-2"></div>
+          <div class="speed-bar" id="bar-3"></div>
+          <div class="speed-bar" id="bar-4"></div>
+          <div class="speed-bar" id="bar-5"></div>
+        </div>
+      </div>
+      <div class="score-item">
+        <span class="score-label">Lives</span>
+        <span class="score-number text-red" id="lives-display">♥ ♥ ♥</span>
+      </div>
+      <div class="score-item">
+        <span class="score-label">Level</span>
+        <span class="score-number text-green" id="level-display">1</span>
+      </div>
+    </div>
+    <section class="game-screen" id="game-screen" aria-label="Game play area">
+      <div class="star-layer" id="star-layer" aria-hidden="true"></div>
+      <div class="city-layer" id="city-layer" aria-hidden="true"></div>
+      <div class="ground-line" id="ground-line" aria-hidden="true"></div>
+
+      <div class="player" id="player" aria-label="Your character">
+        <svg viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="10" y="0"  width="20" height="16" rx="4" fill="#00f5ff" opacity="0.9"/>
+          <rect x="13" y="4"  width="5"  height="4"  rx="1" fill="#05050f"/>
+          <rect x="22" y="4"  width="5"  height="4"  rx="1" fill="#05050f"/>
+          <rect x="13" y="4"  width="5"  height="4"  rx="1" fill="#ff2d78" opacity="0.7"/>
+          <rect x="22" y="4"  width="5"  height="4"  rx="1" fill="#ff2d78" opacity="0.7"/>
+          <rect x="8"  y="18" width="24" height="18" rx="3" fill="#00c8d4" opacity="0.85"/>
+          <rect x="14" y="21" width="12" height="3"  rx="1" fill="#ff2d78" opacity="0.9"/>
+          <rect x="10" y="37" width="8"  height="13" rx="2" fill="#0099aa"/>
+          <rect x="22" y="37" width="8"  height="13" rx="2" fill="#0099aa"/>
+          <rect x="8"  y="46" width="12" height="4"  rx="2" fill="#00f5ff" opacity="0.8"/>
+          <rect x="20" y="46" width="12" height="4"  rx="2" fill="#00f5ff" opacity="0.8"/>
+          <rect x="10" y="0"  width="20" height="16" rx="4" fill="none" stroke="#00f5ff" stroke-width="1" opacity="0.5"/>
+          <rect x="8"  y="18" width="24" height="18" rx="3" fill="none" stroke="#00f5ff" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+      <p class="paused-label is-hidden" id="paused-label">
+        ⏸ PAUSED :press P to resume
+      </p>
+
+    </section>
+
+    <footer class="hint-bar">
+      <div class="hints-group">
+        <span class="hint-item"><kbd class="tiny-key">SPACE</kbd> Jump</span>
+        <span class="hint-item"><kbd class="tiny-key">P</kbd> Pause</span>
+        <span class="hint-item"><kbd class="tiny-key">Q</kbd> Quit</span>
+        <span class="hint-item"><kbd class="tiny-key">?</kbd> Guide</span>
+      </div>
+      <span class="double-jump-notice is-invisible" id="double-jump-notice">
+        🚀 DOUBLE JUMP UNLOCKED
+      </span>
+    </footer>
+
+  </main>
+
+  <script src="./script/game.js"></script>
+</body>
+</html>
