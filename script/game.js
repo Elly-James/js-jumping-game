@@ -519,12 +519,6 @@ function openGameOverPopup(playerBeatTheirBest) {
   openPopup(el.gameOverPopup);
 }
  
- 
-/* ═══════════════════════════════════════════
-   R. GAME LIFECYCLE
-═══════════════════════════════════════════ */
- 
-/** Resets all state variables back to their starting values */
 function resetGameState() {
   gameState.isRunning      = false;
   gameState.isPaused       = false;
@@ -536,7 +530,6 @@ function resetGameState() {
   gameState.jumpsAllowed   = 1;
 }
  
-/** Resets the visual state of the game screen */
 function resetScreenVisuals() {
   removeAllObstacles();
   resetPlayer();
@@ -545,12 +538,10 @@ function resetScreenVisuals() {
   showLevel();
   showSpeedBars();
  
-  // Hide the double-jump notice and pause label
   el.doubleJumpNotice.classList.add('is-invisible');
   el.pausedLabel.classList.add('is-hidden');
 }
  
-/** Saves the score if it is a new best; returns true if it was */
 function saveBestScore() {
   const isNewBest = gameState.score > gameState.bestScore;
  
@@ -562,8 +553,7 @@ function saveBestScore() {
  
   return isNewBest;
 }
- 
-/** Starts a new game from scratch */
+
 function startGame() {
   resetGameState();
   resetScreenVisuals();
@@ -576,7 +566,7 @@ function startGame() {
   gameState.animFrameId = requestAnimationFrame(runOneFrame);
 }
  
-/** Pauses the game and shows the pause popup */
+
 function pauseGame() {
   if (!gameState.isRunning || gameState.isPaused) return;
  
@@ -585,7 +575,6 @@ function pauseGame() {
   stopScoreTicker();
   cancelObstacleSpawn();
  
-  // Show the paused message on screen and update the pause button icon
   el.pausedLabel.classList.remove('is-hidden');
   el.pauseButton.textContent = '▶';
   el.pauseButton.title       = 'Resume (P)';
@@ -593,25 +582,20 @@ function pauseGame() {
   openPausePopup();
 }
  
-/** Resumes the game from a paused state */
 function resumeGame() {
   if (!gameState.isPaused) return;
  
   gameState.isPaused = false;
   closePopup(el.pausePopup);
- 
-  // Hide the paused label and restore the pause button icon
   el.pausedLabel.classList.add('is-hidden');
   el.pauseButton.textContent = '⏸';
   el.pauseButton.title       = 'Pause (P)';
  
-  // Restart all the timers and the game loop
   startScoreTicker();
   scheduleNextObstacle();
   gameState.animFrameId = requestAnimationFrame(runOneFrame);
 }
  
-/** Toggles between paused and running */
 function togglePause() {
   if (gameState.isPaused) {
     resumeGame();
@@ -620,7 +604,6 @@ function togglePause() {
   }
 }
  
-/** Ends the game (called on 0 lives or forfeit) */
 function endGame() {
   gameState.isRunning = false;
   gameState.isPaused  = false;
@@ -631,14 +614,156 @@ function endGame() {
  
   const isNewBest = saveBestScore();
  
-  // Clean up UI state
   setHeaderButtonsActive(false);
   el.pausedLabel.classList.add('is-hidden');
   el.pauseButton.textContent = '⏸';
  
-  // Close any open popup before showing game over
   closePopup(el.pausePopup);
   closePopup(el.quitPopup);
  
   openGameOverPopup(isNewBest);
 }
+
+
+function handleKeyPress(event) {
+  switch (event.code) {
+    case 'Space':
+    case 'ArrowUp':
+      event.preventDefault(); 
+      jumpIfPlaying();
+      break;
+ 
+    case 'KeyP':
+    case 'Escape':
+      event.preventDefault();
+      if (gameState.isRunning) togglePause();
+      break;
+ 
+    case 'KeyQ':
+      event.preventDefault();
+      if (gameState.isRunning && !gameState.isPaused) {
+        pauseGame();
+        openQuitConfirmPopup();
+      }
+      break;
+  }
+}
+ 
+function jumpIfPlaying() {
+  if (!gameState.isRunning || gameState.isPaused) return;
+  makePlayerJump();
+}
+ 
+function handleScreenTap(event) {
+  const clickedInsideUI = event.target.closest(
+    'button, .popup, .scoreboard, .game-header, .hint-bar'
+  );
+  if (clickedInsideUI) return;
+  jumpIfPlaying();
+}
+ 
+function handleScreenTouch(event) {
+  const touchedInsideUI = event.target.closest(
+    'button, .popup, .scoreboard, .game-header, .hint-bar'
+  );
+  if (touchedInsideUI) return;
+  event.preventDefault();
+  jumpIfPlaying();
+}
+ 
+ 
+function onHelpButtonClick() {
+  if (gameState.isRunning && !gameState.isPaused) pauseGame();
+  openPopup(el.welcomePopup);
+}
+ 
+function onPauseButtonClick() {
+  if (!gameState.isRunning) return;
+  togglePause();
+}
+ 
+function onQuitButtonClick() {
+  if (!gameState.isRunning) return;
+  if (!gameState.isPaused) pauseGame();
+  openQuitConfirmPopup();
+}
+ 
+function onStartButtonClick() {
+  closePopup(el.welcomePopup);
+  startGame();
+}
+ 
+function onResumeButtonClick() {
+  resumeGame();
+}
+ 
+function onOpenQuitButtonClick() {
+  closePopup(el.pausePopup);
+  openQuitConfirmPopup();
+}
+ 
+function onCancelQuitButtonClick() {
+  closePopup(el.quitPopup);
+  resumeGame();
+}
+ 
+function onConfirmQuitButtonClick() {
+  endGame();
+}
+ 
+function onPlayAgainButtonClick() {
+  closePopup(el.gameOverPopup);
+  startGame();
+}
+ 
+function onShowGuideButtonClick() {
+  closePopup(el.gameOverPopup);
+  openPopup(el.welcomePopup);
+}
+ 
+ 
+function attachAllListeners() {
+  // Keyboard
+  document.addEventListener('keydown',    handleKeyPress);
+ 
+  document.addEventListener('click',      handleScreenTap);
+  document.addEventListener('touchstart', handleScreenTouch, { passive: false });
+ 
+  el.helpButton.addEventListener('click',  onHelpButtonClick);
+  el.pauseButton.addEventListener('click', onPauseButtonClick);
+  el.quitButton.addEventListener('click',  onQuitButtonClick);
+ 
+  // Welcome popup
+  el.startButton.addEventListener('click', onStartButtonClick);
+ 
+  // Pause popup
+  el.resumeButton.addEventListener('click',   onResumeButtonClick);
+  el.openQuitButton.addEventListener('click', onOpenQuitButtonClick);
+ 
+  // Quit confirmation popup
+  el.cancelQuitButton.addEventListener('click',  onCancelQuitButtonClick);
+  el.confirmQuitButton.addEventListener('click', onConfirmQuitButtonClick);
+ 
+  // Game over popup
+  el.playAgainButton.addEventListener('click', onPlayAgainButtonClick);
+  el.showGuideButton.addEventListener('click', onShowGuideButtonClick);
+}
+ 
+function showInitialScoreboard() {
+  el.scoreDisplay.textContent     = '0';
+  el.bestScoreDisplay.textContent = gameState.bestScore;
+  el.livesDisplay.textContent     = '♥ ♥ ♥';
+  el.levelDisplay.textContent     = '1';
+}
+ 
+function setup() {
+  drawStars();
+  drawCityBuildings();
+  showInitialScoreboard();
+  setHeaderButtonsActive(false);
+  attachAllListeners();
+  openPopup(el.welcomePopup);
+}
+ 
+//Booting the game
+setup();
