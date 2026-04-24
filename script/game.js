@@ -13,14 +13,24 @@ const SETTINGS = {
   obstacleMinWidth: 28,     
   obstacleMaxWidth: 52,     
   obstacleMinHeight: 32,    
-  obstacleMaxHeight: 72,    
+  obstacleMaxHeight: 72,
+  
+  // One music file per level — replace filenames with your actual files
+musicTracks: [
+  './audio/level1.mp3',   // plays at level 1
+  './audio/level2.mp3',   // plays at level 2
+  './audio/level3.mp3',   // plays at level 3
+  './audio/level4.mp3',   // plays at level 4
+  './audio/level5.mp3',   // plays at level 5
+],
+musicVolume: 0.4,         // 0.0 = silent, 1.0 = full volume
 };
 
 const gameState = {
   isRunning:       false,   
   isPaused:        false,   
   score:           0,
-  bestScore:       parseInt(localStorage.getItem('neonDashBest') || '0', 10),
+  bestScore:       parseInt(localStorage.getItem('jumpRushBest') || '0', 10),
   lives:           3,
   level:           1,
   obstacleSpeed:   SETTINGS.startSpeed,
@@ -87,6 +97,9 @@ const el = {
   finalLevel:       document.getElementById('final-level'),
   gameOverMessage:  document.getElementById('game-over-message'),
   newRecordMessage: document.getElementById('new-record-message'),
+
+  bgMusic: document.getElementById('bg-music'),
+  muteButton: document.getElementById('mute-button')
 };
 
 function randomBetween(min, max) {
@@ -200,6 +213,7 @@ function checkAndApplyLevelUp() {
  
   showLevel();
   showSpeedBars();
+  playMusicForLevel(gameState.level);   // switch to the new level's music
  
   if (newLevel === 3) {
     showDoubleJumpNotice();
@@ -211,6 +225,51 @@ function showDoubleJumpNotice() {
   setTimeout(() => {
     el.doubleJumpNotice.classList.add('is-invisible');
   }, 3000);
+}
+
+// ── MUSIC FUNCTIONS ──────────────────────────────
+
+/** Loads and plays the music track for the given level number (1–5) */
+function playMusicForLevel(levelNumber) {
+  const trackIndex = levelNumber - 1;                        // levels are 1-based, array is 0-based
+  const trackPath  = SETTINGS.musicTracks[trackIndex];
+
+  // Don't restart the same track if it's already playing
+  if (el.bgMusic.src.endsWith(trackPath) && !el.bgMusic.paused) return;
+
+  el.bgMusic.src    = trackPath;
+  el.bgMusic.volume = SETTINGS.musicVolume;
+  el.bgMusic.currentTime = 0;                                // restart from beginning
+
+  // play() returns a Promise — we catch errors silently (browser autoplay rules)
+  el.bgMusic.play().catch(() => {});
+}
+
+/** Pauses the background music (used when game pauses) */
+function pauseMusic() {
+  if (!el.bgMusic.paused) {
+    el.bgMusic.pause();
+  }
+}
+
+/** Resumes the background music from where it paused */
+function resumeMusic() {
+  if (el.bgMusic.paused && el.bgMusic.src) {
+    el.bgMusic.play().catch(() => {});
+  }
+}
+
+/** Stops the music and clears the track (used on game over) */
+function stopMusic() {
+  el.bgMusic.pause();
+  el.bgMusic.currentTime = 0;
+  el.bgMusic.src = '';
+}
+
+/** Toggles music on and off — updates button icon to match */
+function toggleMute() {
+  el.bgMusic.muted = !el.bgMusic.muted;
+  el.muteButton.textContent = el.bgMusic.muted ? '🔇' : '🔊';
 }
  
 function buildObstacleShape(shapeType, width, height, midX, colour) {
@@ -547,7 +606,7 @@ function saveBestScore() {
  
   if (isNewBest) {
     gameState.bestScore = gameState.score;
-    localStorage.setItem('neonDashBest', gameState.bestScore);
+    localStorage.setItem('jumpRushBest', gameState.bestScore);
     showBestScore();
   }
  
@@ -564,6 +623,7 @@ function startGame() {
   scheduleNextObstacle();
   startScoreTicker();
   gameState.animFrameId = requestAnimationFrame(runOneFrame);
+  playMusicForLevel(1);   
 }
  
 
@@ -579,7 +639,9 @@ function pauseGame() {
   el.pauseButton.textContent = '▶';
   el.pauseButton.title       = 'Resume (P)';
  
+  pauseMusic();
   openPausePopup();
+  
 }
  
 function resumeGame() {
@@ -591,6 +653,7 @@ function resumeGame() {
   el.pauseButton.textContent = '⏸';
   el.pauseButton.title       = 'Pause (P)';
  
+  resumeMusic();
   startScoreTicker();
   scheduleNextObstacle();
   gameState.animFrameId = requestAnimationFrame(runOneFrame);
@@ -611,7 +674,8 @@ function endGame() {
   stopGameLoop();
   stopScoreTicker();
   cancelObstacleSpawn();
- 
+
+  stopMusic();
   const isNewBest = saveBestScore();
  
   setHeaderButtonsActive(false);
@@ -747,6 +811,11 @@ function attachAllListeners() {
   // Game over popup
   el.playAgainButton.addEventListener('click', onPlayAgainButtonClick);
   el.showGuideButton.addEventListener('click', onShowGuideButtonClick);
+
+  el.muteButton.addEventListener('click', toggleMute);
+   document.addEventListener('keydown', (e) => {
+  if (e.code === 'KeyM') toggleMute();
+  });
 }
  
 function showInitialScoreboard() {
