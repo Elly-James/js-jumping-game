@@ -268,7 +268,7 @@ body::after {
 }
 
 .score-label {
-  font-size: 0.58rem;
+  font-size: 0.65rem;
   letter-spacing: 0.2em;
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -516,6 +516,7 @@ body::after {
   border-radius: var(--round-lg);
   overflow: hidden;
   animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 90vh;
 }
 
 .popup-medium {
@@ -568,9 +569,9 @@ body::after {
 
 .popup-tag {
   display: block;
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.22em;
-  color: var(--color-text-muted);
+  color: var(--color-text-dim);
   text-transform: uppercase;
   margin-bottom: 6px;
 }
@@ -579,7 +580,7 @@ body::after {
   font-family: var(--font-title);
   font-size: clamp(1.3rem, 4vw, 1.9rem);
   font-weight: 900;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   color: var(--color-cyan);
   text-shadow: 0 0 10px var(--color-cyan), 0 0 30px rgba(0, 245, 255, 0.3);
   line-height: 1.1;
@@ -597,8 +598,6 @@ body::after {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
-  max-height: 60vh;
-  overflow-y: auto;
 }
 
 .popup-bottom {
@@ -617,7 +616,7 @@ body::after {
 }
 
 .popup-tip {
-  font-size: 0.66rem;
+  font-size: 0.72rem;
   color: var(--color-text-muted);
   text-align: center;
 }
@@ -630,7 +629,7 @@ body::after {
 
 .guide-title {
   font-family: var(--font-title);
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: var(--color-cyan);
@@ -638,9 +637,9 @@ body::after {
 }
 
 .guide-text {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--color-text-dim);
-  line-height: 1.65;
+  line-height: 1.78;
 }
 
 .text-center {
@@ -677,7 +676,7 @@ body::after {
 }
 
 .key-label {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--color-text-dim);
 }
 
@@ -691,7 +690,7 @@ body::after {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.76rem;
+  font-size: 0.85rem;
   color: var(--color-text-dim);
   padding: 5px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
@@ -699,7 +698,7 @@ body::after {
 
 .level-badge {
   font-family: var(--font-title);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 700;
   color: var(--color-cyan);
   background: rgba(0, 245, 255, 0.08);
@@ -733,7 +732,7 @@ body::after {
 }
 
 .stat-label {
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   letter-spacing: 0.15em;
   color: var(--color-text-muted);
   text-transform: uppercase;
@@ -749,7 +748,7 @@ body::after {
 }
 
 .keyboard-reminder {
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   color: var(--color-text-dim);
   text-align: center;
 }
