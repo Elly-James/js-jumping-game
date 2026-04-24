@@ -17,11 +17,11 @@ const SETTINGS = {
   
   // One music file per level — replace filenames with your actual files
 musicTracks: [
-  './audio/level1.mp3',   // plays at level 1
-  './audio/level2.mp3',   // plays at level 2
-  './audio/level3.mp3',   // plays at level 3
-  './audio/level4.mp3',   // plays at level 4
-  './audio/level5.mp3',   // plays at level 5
+  'audio/level1.mp3',   // plays at level 1
+  'audio/level2.mp3',   // plays at level 2
+  'audio/level3.mp3',   // plays at level 3
+  'audio/level4.mp3',   // plays at level 4
+  'audio/level5.mp3',   // plays at level 5
 ],
 musicVolume: 0.4,         // 0.0 = silent, 1.0 = full volume
 };
