@@ -15,15 +15,15 @@ const SETTINGS = {
   obstacleMinHeight: 32,    
   obstacleMaxHeight: 72,
   
-  // One music file per level — replace filenames with your actual files
+  
 musicTracks: [
-  'audio/level1.mp3',   // plays at level 1
-  'audio/level2.mp3',   // plays at level 2
-  'audio/level3.mp3',   // plays at level 3
-  'audio/level4.mp3',   // plays at level 4
-  'audio/level5.mp3',   // plays at level 5
+  'audio/level1.mp3',   
+  'audio/level2.mp3',  
+  'audio/level3.mp3',   
+  'audio/level4.mp3',   
+  'audio/level5.mp3',  
 ],
-musicVolume: 0.4,         // 0.0 = silent, 1.0 = full volume
+musicVolume: 0.4,         
 };
 
 const gameState = {
@@ -213,7 +213,7 @@ function checkAndApplyLevelUp() {
  
   showLevel();
   showSpeedBars();
-  playMusicForLevel(gameState.level);   // switch to the new level's music
+  playMusicForLevel(gameState.level);   
  
   if (newLevel === 3) {
     showDoubleJumpNotice();
@@ -227,46 +227,36 @@ function showDoubleJumpNotice() {
   }, 3000);
 }
 
-// ── MUSIC FUNCTIONS ──────────────────────────────
 
-/** Loads and plays the music track for the given level number (1–5) */
 function playMusicForLevel(levelNumber) {
-  const trackIndex = levelNumber - 1;                        // levels are 1-based, array is 0-based
+  const trackIndex = levelNumber - 1;                        
   const trackPath  = SETTINGS.musicTracks[trackIndex];
-
-  // Don't restart the same track if it's already playing
   if (el.bgMusic.src.endsWith(trackPath) && !el.bgMusic.paused) return;
 
   el.bgMusic.src    = trackPath;
   el.bgMusic.volume = SETTINGS.musicVolume;
-  el.bgMusic.currentTime = 0;                                // restart from beginning
-
-  // play() returns a Promise — we catch errors silently (browser autoplay rules)
+  el.bgMusic.currentTime = 0;                                
   el.bgMusic.play().catch(() => {});
 }
 
-/** Pauses the background music (used when game pauses) */
 function pauseMusic() {
   if (!el.bgMusic.paused) {
     el.bgMusic.pause();
   }
 }
 
-/** Resumes the background music from where it paused */
 function resumeMusic() {
   if (el.bgMusic.paused && el.bgMusic.src) {
     el.bgMusic.play().catch(() => {});
   }
 }
 
-/** Stops the music and clears the track (used on game over) */
 function stopMusic() {
   el.bgMusic.pause();
   el.bgMusic.currentTime = 0;
   el.bgMusic.src = '';
 }
 
-/** Toggles music on and off — updates button icon to match */
 function toggleMute() {
   el.bgMusic.muted = !el.bgMusic.muted;
   el.muteButton.textContent = el.bgMusic.muted ? '🔇' : '🔊';
@@ -693,22 +683,27 @@ function handleKeyPress(event) {
   switch (event.code) {
     case 'Space':
     case 'ArrowUp':
-      event.preventDefault(); 
+      event.preventDefault();
       jumpIfPlaying();
       break;
- 
+
     case 'KeyP':
     case 'Escape':
       event.preventDefault();
       if (gameState.isRunning) togglePause();
       break;
- 
+
     case 'KeyQ':
       event.preventDefault();
       if (gameState.isRunning && !gameState.isPaused) {
         pauseGame();
         openQuitConfirmPopup();
       }
+      break;
+
+    case 'KeyM':
+      event.preventDefault();
+      toggleMute();
       break;
   }
 }
@@ -813,9 +808,6 @@ function attachAllListeners() {
   el.showGuideButton.addEventListener('click', onShowGuideButtonClick);
 
   el.muteButton.addEventListener('click', toggleMute);
-   document.addEventListener('keydown', (e) => {
-  if (e.code === 'KeyM') toggleMute();
-  });
 }
  
 function showInitialScoreboard() {
