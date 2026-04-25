@@ -604,6 +604,7 @@ function saveBestScore() {
 }
 
 function startGame() {
+  el.startButton.textContent = '▶  START GAME';
   resetGameState();
   resetScreenVisuals();
  
@@ -736,7 +737,19 @@ function handleScreenTouch(event) {
  
  
 function onHelpButtonClick() {
-  if (gameState.isRunning && !gameState.isPaused) pauseGame();
+  if (gameState.isRunning && !gameState.isPaused) {
+    gameState.isPaused = true;
+    stopGameLoop();
+    stopScoreTicker();
+    cancelObstacleSpawn();
+    el.pausedLabel.classList.remove('is-hidden');
+    el.pauseButton.textContent = '▶';
+    el.pauseButton.title       = 'Resume (P)';
+    pauseMusic();
+  }
+  el.startButton.textContent = gameState.isPaused
+  ? '▶  RESUME GAME'
+  : '▶  START GAME';
   openPopup(el.welcomePopup);
 }
  
@@ -753,7 +766,11 @@ function onQuitButtonClick() {
  
 function onStartButtonClick() {
   closePopup(el.welcomePopup);
-  startGame();
+  if (gameState.isPaused) {
+    resumeGame();
+  } else {
+    startGame();
+  }
 }
  
 function onResumeButtonClick() {
