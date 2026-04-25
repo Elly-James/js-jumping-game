@@ -803,19 +803,14 @@ function attachAllListeners() {
   el.helpButton.addEventListener('click',  onHelpButtonClick);
   el.pauseButton.addEventListener('click', onPauseButtonClick);
   el.quitButton.addEventListener('click',  onQuitButtonClick);
- 
-  // Welcome popup
   el.startButton.addEventListener('click', onStartButtonClick);
- 
-  // Pause popup
+
   el.resumeButton.addEventListener('click',   onResumeButtonClick);
   el.openQuitButton.addEventListener('click', onOpenQuitButtonClick);
  
-  // Quit confirmation popup
   el.cancelQuitButton.addEventListener('click',  onCancelQuitButtonClick);
   el.confirmQuitButton.addEventListener('click', onConfirmQuitButtonClick);
  
-  // Game over popup
   el.playAgainButton.addEventListener('click', onPlayAgainButtonClick);
   el.showGuideButton.addEventListener('click', onShowGuideButtonClick);
 
@@ -838,5 +833,4 @@ function setup() {
   attachAllListeners();
   openPopup(el.welcomePopup);
 }
-//Booting the game
 setup();
