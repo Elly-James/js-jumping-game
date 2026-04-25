@@ -25,7 +25,7 @@ A cyberpunk-themed endless runner game built with HTML, CSS, and JavaScript. Jum
 | Pause / Resume | `P` or `Esc` | — |
 | Quit / Forfeit | `Q` | — |
 | Mute / Unmute | `M` | — |
-| Open guide | `?` button | — |
+| Open guide | `H` button | — |
 
 ## Levels
 
