@@ -1,6 +1,5 @@
 
 :root {
-  
   --color-page-bg:    #05050f;   
   --color-panel-bg:   #0d0d22;   
   --color-input-bg:   #090915;  
@@ -33,10 +32,8 @@
   --round-md:  8px;
   --round-lg:  12px;
 
-
   --font-title: 'Orbitron', sans-serif;   
   --font-body:  'Share Tech Mono', monospace; 
-
 
   --speed-fast:  0.15s ease;
   --speed-med:   0.3s ease;
@@ -57,7 +54,6 @@ html {
 ul {
   list-style: none;
 }
-
 
 body {
   background-color: var(--color-page-bg);
@@ -106,7 +102,6 @@ strong {
   font-weight: 700;
   color: var(--color-cyan);
 }
-
 
 body::before {
   content: '';
@@ -196,7 +191,6 @@ body::after {
   color: var(--color-cyan);
   text-shadow: 0 0 8px var(--color-cyan), 0 0 22px rgba(0, 245, 255, 0.4);
 }
-
 .logo-version {
   font-size: 0.65rem;
   color: var(--color-text-dim);
@@ -208,7 +202,6 @@ body::after {
   align-items: center;
   gap: var(--space-sm);
 }
-
 .header-btn {
   width: 34px;
   height: 34px;
@@ -222,7 +215,6 @@ body::after {
   justify-content: center;
   transition: all var(--speed-fast);
 }
-
 .header-btn:hover:not(:disabled) {
   background: var(--color-panel-hover);
   border-color: var(--color-cyan);
@@ -257,7 +249,6 @@ body::after {
   border-top: 1px solid var(--color-border-lit);
   border-bottom: none;
 }
-
 .score-item {
   display: flex;
   flex-direction: column;
@@ -266,7 +257,6 @@ body::after {
   min-width: 50px;
   flex: 1;                
 }
-
 .score-label {
   font-size: 0.65rem;
   letter-spacing: 0.2em;
@@ -290,7 +280,6 @@ body::after {
   align-items: center;
   gap: 4px;
 }
-
 .speed-bar {
   width: 6px;
   height: 18px;
@@ -348,7 +337,6 @@ body::after {
   opacity: 0.15;
 }
 
-
 .city-building {
   position: absolute;
   bottom: 0;
@@ -374,8 +362,6 @@ body::after {
   box-shadow: 0 0 14px var(--color-cyan), 0 0 32px rgba(0, 245, 255, 0.2);
   z-index: 2;
 }
-
-
 .paused-label {
   position: absolute;
   top: 50%;
@@ -391,8 +377,6 @@ body::after {
   animation: breathe 1.6s ease-in-out infinite;
   white-space: nowrap;
 }
-
-
 .score-popup {
   position: absolute;
   font-family: var(--font-title);
@@ -426,8 +410,6 @@ body::after {
     drop-shadow(0 0 8px var(--color-cyan))
     drop-shadow(0 0 20px rgba(0, 245, 255, 0.6));
 }
-
-
 .obstacle {
   position: absolute;
   bottom: var(--ground-height);
@@ -441,8 +423,6 @@ body::after {
 .game-screen.hit-flash {
   animation: redFlash 0.35s ease-out forwards;
 }
-
-
 .hint-bar {
   display: flex;
   align-items: center;
@@ -492,8 +472,6 @@ body::after {
   opacity: 0;
   pointer-events: none;
 }
-
-
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -527,8 +505,6 @@ body::after {
 .popup-small {
   max-width: 360px;
 }
-
-
 .popup::before {
   content: '';
   position: absolute;
@@ -561,7 +537,6 @@ body::after {
 .yellow-glow { background: var(--color-yellow); }
 .red-glow    { background: var(--color-pink);   opacity: 0.16; }
 
-
 .popup-top {
   padding: var(--space-lg) var(--space-lg) var(--space-md);
   text-align: center;
@@ -592,8 +567,6 @@ body::after {
   color: var(--color-text-dim);
   margin-top: 4px;
 }
-
-
 .popup-content {
   padding: var(--space-md) var(--space-lg);
   display: flex;
@@ -609,7 +582,6 @@ body::after {
   gap: var(--space-sm);
   border-top: 1px solid var(--color-border);
 }
-
 
 .popup-row {
   flex-direction: row;
@@ -773,8 +745,6 @@ body::after {
   animation: breathe 1.2s ease-in-out infinite;
   padding: var(--space-sm) 0;
 }
-
-
 .btn-start {
   display: inline-flex;
   align-items: center;

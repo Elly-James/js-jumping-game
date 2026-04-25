@@ -14,8 +14,7 @@ const SETTINGS = {
   obstacleMaxWidth: 52,     
   obstacleMinHeight: 32,    
   obstacleMaxHeight: 72,
-  
-  
+
 musicTracks: [
   'audio/level1.mp3',   
   'audio/level2.mp3',  
@@ -48,8 +47,6 @@ const player = {
 };
  
 let activeObstacles = [];
- 
-
 const el = {
 
   gameScreen:       document.getElementById('game-screen'),
@@ -59,7 +56,6 @@ const el = {
   cityLayer:        document.getElementById('city-layer'),
   pausedLabel:      document.getElementById('paused-label'),
  
-
   scoreDisplay:     document.getElementById('score-display'),
   bestScoreDisplay: document.getElementById('best-score-display'),
   livesDisplay:     document.getElementById('lives-display'),
@@ -90,7 +86,6 @@ const el = {
   pausedLives: document.getElementById('paused-lives'),
 
   quitScorePreview: document.getElementById('quit-score-preview'),
- 
 
   finalScore:       document.getElementById('final-score'),
   finalBestScore:   document.getElementById('final-best-score'),
@@ -164,7 +159,6 @@ function drawCityBuildings() {
   }
 }
  
-
 function showScore() {
   el.scoreDisplay.textContent = gameState.score;
 }
@@ -438,7 +432,6 @@ function boxesOverlap(boxA, boxB) {
   );
 }
  
-
 function checkForCollisions() {
   const playerBox = getPlayerBox();
  
@@ -480,7 +473,6 @@ function flashScreenRed() {
   el.gameScreen.classList.add('hit-flash');
 }
  
- 
 function addOnePoint() {
   gameState.score++;
   showScore();
@@ -505,7 +497,6 @@ function scheduleNextObstacle() {
   }, delay);
 }
  
-
 function cancelObstacleSpawn() {
   clearTimeout(gameState.spawnTimerId);
   gameState.spawnTimerId = null;
@@ -534,7 +525,6 @@ function openPopup(popupElement) {
   popupElement.classList.remove('is-hidden');
 }
  
-
 function closePopup(popupElement) {
   popupElement.classList.add('is-hidden');
 }
@@ -617,7 +607,6 @@ function startGame() {
   playMusicForLevel(1);   
 }
  
-
 function pauseGame() {
   if (!gameState.isRunning || gameState.isPaused) return;
  
@@ -735,7 +724,6 @@ function handleScreenTouch(event) {
   jumpIfPlaying();
 }
  
- 
 function onHelpButtonClick() {
   if (gameState.isRunning && !gameState.isPaused) {
     gameState.isPaused = true;
@@ -807,12 +795,8 @@ function handleVisibilityChange() {
   }
 }
 
- 
- 
 function attachAllListeners() {
-  // Keyboard
   document.addEventListener('keydown',    handleKeyPress);
- 
   document.addEventListener('click',      handleScreenTap);
   document.addEventListener('touchstart', handleScreenTouch, { passive: false });
  
@@ -854,6 +838,5 @@ function setup() {
   attachAllListeners();
   openPopup(el.welcomePopup);
 }
- 
 //Booting the game
 setup();
