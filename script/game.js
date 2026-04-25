@@ -705,6 +705,10 @@ function handleKeyPress(event) {
       event.preventDefault();
       toggleMute();
       break;
+    case 'KeyH':
+      event.preventDefault();
+      onHelpButtonClick();
+      break;
   }
 }
  
@@ -779,6 +783,13 @@ function onShowGuideButtonClick() {
   closePopup(el.gameOverPopup);
   openPopup(el.welcomePopup);
 }
+
+function handleVisibilityChange() {
+  if (document.hidden && gameState.isRunning && !gameState.isPaused) {
+    pauseGame();
+  }
+}
+
  
  
 function attachAllListeners() {
@@ -808,6 +819,7 @@ function attachAllListeners() {
   el.showGuideButton.addEventListener('click', onShowGuideButtonClick);
 
   el.muteButton.addEventListener('click', toggleMute);
+  document.addEventListener('visibilitychange', handleVisibilityChange);
 }
  
 function showInitialScoreboard() {

@@ -2,7 +2,7 @@
 
 A cyberpunk-themed endless runner game built with HTML, CSS, and JavaScript. Jump over obstacles, survive as long as you can, and beat your high score across 5 escalating speed levels.
 
-🔗 **[Live Demo](https://your-username.github.io/your-repo-name)**
+🔗 **[Live Demo](https://elly-james.github.io/js-jumping-game/)**
 
 ## Features
 
